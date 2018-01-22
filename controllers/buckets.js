@@ -7,11 +7,7 @@ const { Bucket } = require("../models/schema");
 function bucketGetAll(request, response) {
   Bucket.find({})
     .sort("bOrder")
-    .then(bucketData => {
-      response.render("bucket-index", {
-        bucket: bucketData
-      });
-    })
+    .then(buckets => response.json(buckets))
     .catch(err => {
       console.log(err);
     });
@@ -20,9 +16,7 @@ function bucketGetAll(request, response) {
 function bucketGetOne(request, response) {
   let bTitle = request.params.bTitle;
   Bucket.findOne({ bTitle: bTitle })
-    .then(bucketData => {
-      response.render("bucket-show", { bucket: bucketData });
-    })
+    .then(bucket => response.json(bucket))
     .catch(err => {
       console.log(err);
     });
@@ -31,9 +25,7 @@ function bucketGetOne(request, response) {
 function bucketPost(request, response) {
   // let bTitle = request.params.bTitle;
   Bucket.create(request.body.bucket)
-    .then(bucket => {
-      response.redirect(`/bucket`);
-    })
+    .then(bucket => response.json(bucket))
     .catch(err => {
       console.log(err);
     });
@@ -41,9 +33,7 @@ function bucketPost(request, response) {
 
 function bucketDelete(request, response) {
   Bucket.findOneAndRemove({ bTitle: request.params.bTitle })
-    .then(() => {
-      response.redirect("/bucket");
-    })
+    .then(bucket => response.json(bucket))
     .catch(err => {
       console.log(err);
     });
@@ -57,9 +47,7 @@ function bucketPut(request, response) {
       new: true
     }
   )
-    .then(bucket => {
-      response.redirect(`/bucket/${bucket.bTitle}`);
-    })
+    .then(bucket => response.json(bucket))
     .catch(err => {
       console.log(err);
     });
@@ -70,13 +58,9 @@ function taskPatch(request, response) {
   Bucket.findOneAndUpdate(
     { bTitle: request.params.bTitle },
     { $push: { addedTask: request.body.bucket.addedTask } },
-    {
-      new: true
-    }
+    { new: true }
   )
-    .then(bucket => {
-      response.redirect(`/bucket/${bucket.bTitle}`);
-    })
+    .then(task => response.json(task))
     .catch(err => {
       console.log(err);
     });

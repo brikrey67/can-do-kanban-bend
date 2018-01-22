@@ -34,8 +34,6 @@ router
 
 router.route("/logout").get(usersController.getLogout);
 
-router.route("/secret").get(authenticatedUser, usersController.secret);
-
 // BUCKET ROUTES ******************************
 router.route("/bucket").get(authenticatedUser, bucketController.bucketGetAll);
 // list all bucket
