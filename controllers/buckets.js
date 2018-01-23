@@ -7,7 +7,9 @@ const { Bucket } = require("../models/schema");
 function bucketGetAll(request, response) {
   Bucket.find({})
     .sort("bOrder")
-    .then(buckets => response.status(200).json(buckets))
+    .then(buckets => {
+      response.status(200).json(buckets);
+    })
     .catch(err => {
       response.status(500).send({ error: "Nope!" });
     });
@@ -16,7 +18,9 @@ function bucketGetAll(request, response) {
 function bucketGetOne(request, response) {
   let bTitle = request.params.bTitle;
   Bucket.findOne({ bTitle: bTitle })
-    .then(bucket => response.status(200).json(bucket))
+    .then(bucket => {
+      response.status(200).json(bucket);
+    })
     .catch(err => {
       response.status(500).send({ error: "Nope!" });
     });
@@ -25,7 +29,9 @@ function bucketGetOne(request, response) {
 function bucketPost(request, response) {
   // let bTitle = request.params.bTitle;
   Bucket.create(request.body)
-    .then(bucket => response.status(200).json(bucket))
+    .then(bucket => {
+      response.status(200).json(bucket);
+    })
     .catch(err => {
       console.log(err);
     });
@@ -33,21 +39,21 @@ function bucketPost(request, response) {
 
 function bucketDelete(request, response) {
   Bucket.findOneAndRemove({ bTitle: request.params.bTitle })
-    .then(bucket => response.status(200).json(bucket))
+    .then(bucket => {
+      response.status(200).json(bucket);
+    })
     .catch(err => {
       response.status(500).send({ error: "Nope!" });
     });
 }
 
 function bucketPut(request, response) {
-  Bucket.findOneAndUpdate(
-    { bTitle: request.params.bTitle },
-    request.body.bucket,
-    {
-      new: true
-    }
-  )
-    .then(bucket => response.status(200).json(bucket))
+  Bucket.findOneAndUpdate({ bTitle: request.params.bTitle }, request.body, {
+    new: true
+  })
+    .then(bucket => {
+      response.status(200).json(bucket);
+    })
     .catch(err => {
       response.status(500).send({ error: "Nope!" });
     });
