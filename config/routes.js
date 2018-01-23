@@ -35,28 +35,20 @@ router
 router.route("/logout").get(usersController.getLogout);
 
 // BUCKET ROUTES ******************************
-router.route("/bucket").get(authenticatedUser, bucketController.bucketGetAll);
+router.route("/bucket").get(bucketController.bucketGetAll);
 // list all bucket
 
-router.route("/bucket").post(authenticatedUser, bucketController.bucketPost);
+router.route("/bucket").post(bucketController.bucketPost);
 // add new bucket
 
-router
-  .route("/bucket/:bTitle")
-  .get(authenticatedUser, bucketController.bucketGetOne);
+router.route("/bucket/:bTitle").get(bucketController.bucketGetOne);
 // show selected bucket detail
-router
-  .route("/bucket/:bTitle")
-  .delete(authenticatedUser, bucketController.bucketDelete);
+router.route("/bucket/:bTitle").delete(bucketController.bucketDelete);
 // delete selected bucket
 
-router
-  .route("/bucket/:bTitle")
-  .put(authenticatedUser, bucketController.bucketPut);
+router.route("/bucket/:bTitle").put(bucketController.bucketPut);
 
-router
-  .route("/bucket/:bTitle")
-  .patch(authenticatedUser, bucketController.taskPatch);
+router.route("/bucket/:bTitle").patch(bucketController.taskPatch);
 
 // TASK ROUTES  *******************************
 

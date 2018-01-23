@@ -7,25 +7,25 @@ const { Bucket } = require("../models/schema");
 function bucketGetAll(request, response) {
   Bucket.find({})
     .sort("bOrder")
-    .then(buckets => response.json(buckets))
+    .then(buckets => response.status(200).json(buckets))
     .catch(err => {
-      console.log(err);
+      response.status(500).send({ error: "Nope!" });
     });
 }
 
 function bucketGetOne(request, response) {
   let bTitle = request.params.bTitle;
   Bucket.findOne({ bTitle: bTitle })
-    .then(bucket => response.json(bucket))
+    .then(bucket => response.status(200).json(bucket))
     .catch(err => {
-      console.log(err);
+      response.status(500).send({ error: "Nope!" });
     });
 }
 
 function bucketPost(request, response) {
   // let bTitle = request.params.bTitle;
-  Bucket.create(request.body.bucket)
-    .then(bucket => response.json(bucket))
+  Bucket.create(request.body)
+    .then(bucket => response.status(200).json(bucket))
     .catch(err => {
       console.log(err);
     });
@@ -33,9 +33,9 @@ function bucketPost(request, response) {
 
 function bucketDelete(request, response) {
   Bucket.findOneAndRemove({ bTitle: request.params.bTitle })
-    .then(bucket => response.json(bucket))
+    .then(bucket => response.status(200).json(bucket))
     .catch(err => {
-      console.log(err);
+      response.status(500).send({ error: "Nope!" });
     });
 }
 
@@ -47,9 +47,9 @@ function bucketPut(request, response) {
       new: true
     }
   )
-    .then(bucket => response.json(bucket))
+    .then(bucket => response.status(200).json(bucket))
     .catch(err => {
-      console.log(err);
+      response.status(500).send({ error: "Nope!" });
     });
 }
 
@@ -60,9 +60,9 @@ function taskPatch(request, response) {
     { $push: { addedTask: request.body.bucket.addedTask } },
     { new: true }
   )
-    .then(task => response.json(task))
+    .then(task => response.status(200).json(task))
     .catch(err => {
-      console.log(err);
+      response.status(500).send({ error: "Nope!" });
     });
 }
 
