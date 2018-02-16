@@ -43,6 +43,7 @@ router.route("/bucket").post(bucketController.bucketPost);
 
 router.route("/bucket/:bTitle").get(bucketController.bucketGetOne);
 // show selected bucket detail
+
 router.route("/bucket/:bTitle").delete(bucketController.bucketDelete);
 // delete selected bucket
 
