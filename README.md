@@ -1,19 +1,11 @@
-**Project: Can-Do-Kanban**
+To start:
+(1) npm install
+(2) mongod
+(3) nodemon
+
+**Project: Can-Do-Kanban BACKEND RESTful API**
 
 **Developer:** Brian Reynolds
-
-**Description** Simple kanban tool that allows user to CRUD buckets and metadata, CRUD tasks and metadata, and move tasks betwen buckets.
-
-**General Assembly WDI 20 Project 2 -- can-do-kanban**, a simple kanban application
-
-**Features include:**
-
-* User Authentication
-* CRUD buckets
-* CRUD tasks
-* Organize tasks within buckets
-
-**List of Entities Managed**
 
 Two models:
 
@@ -37,7 +29,10 @@ addedTask: [TaskSchema]
 
 **List of Technologies Used**
 
-Node, Express, Mongo, Mongoose, Handlebars, Bootstrap, CSS, HTML
+Node, Express, Mongo, Mongoose
+
+** Integration **
+This API fronted by React
 
 **Installation Instructions / Getting Started**
 

@@ -1,5 +1,4 @@
 const express = require("express");
-var passport = require("passport");
 
 const { Bucket } = require("../models/schema");
 // assign schema (defined in schema.js) to variable
@@ -61,10 +60,11 @@ function bucketPut(request, response) {
 }
 
 function taskPatch(request, response) {
-  // console.log(request.body);
+  console.log(request.body);
+  console.log(request.params.bTitle);
   Bucket.findOneAndUpdate(
     { bTitle: request.params.bTitle },
-    { $push: { addedTask: request.body.bucket.addedTask } },
+    { $push: { addedTask: request.body } },
     { new: true }
   )
     .then(task => response.status(200).json(task))
