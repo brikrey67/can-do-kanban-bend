@@ -5,10 +5,10 @@ const { Bucket, Task } = require("../models/schema");
 //assign schema (defined in schema.js) to variabl
 
 function taskGetOne(request, response) {
-  //   console.log("PARAMS ID: " + request.params._id);
+  // console.log("PARAMS ID: " + request.params._id);
   let tId = request.params._id;
   let bTitle = request.params.bTitle;
-  //   console.log("TASK ID: " + tId, "BUCKET TITLE: " + bTitle);
+  // console.log("TASK ID: " + tId, "BUCKET TITLE: " + bTitle);
 
   Bucket.find({ bTitle: { $ne: bTitle } })
     .sort("bOrder")
@@ -18,11 +18,7 @@ function taskGetOne(request, response) {
           taskData = bucketData.addedTask.find(
             task => task._id.toString() == tId
           );
-          response.render("task-show", {
-            task: taskData,
-            bucket: bucketData,
-            bucketList: bucketList
-          });
+          response.status(200).json(taskData);
         })
         .catch(err => {
           console.log("BUCKETDATAERR: " + err);
@@ -112,16 +108,17 @@ function taskOnePut(request, response) {
     },
     function(err, doc) {
       var subDoc = doc.addedTask.id(request.params._id);
-      subDoc.set(request.body.bucket.addedTask);
+      subDoc.set(request.body);
       // console.log("DOC: " + doc);
       // console.log("SUBDOC: " + subDoc);
       doc
         .save()
         .then(doc => {
-          response.redirect(`/bucket/${bucketTitle}`);
+          response.status(200);
+          // response.redirect(`/bucket/${bucketTitle}`);
         })
         .catch(function(err) {
-          res.status(500).send(err);
+          response.status(500).send(err);
         });
     }
   );
