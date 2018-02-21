@@ -29,14 +29,42 @@ function taskGetOne(request, response) {
     });
 }
 
+function taskOnePut(request, response) {
+  bucketTitle = request.params.bTitle;
+  // console.log("BTITLE: " + bucketTitle);
+  tId = request.params._id;
+  // console.log("TID: " + tId);
+  Bucket.findOne(
+    {
+      bTitle: bucketTitle
+    },
+    function(err, doc) {
+      var subDoc = doc.addedTask.id(request.params._id);
+      subDoc.set(request.body);
+      // console.log("DOC: " + doc);
+      // console.log("SUBDOC: " + subDoc);
+      doc
+        .save()
+        .then(doc => {
+          response.status(200).json(Bucket);
+          return;
+        })
+        .catch(function(err) {
+          response.status(500).send(err);
+        });
+    }
+  );
+}
+
 function taskDelete(request, response) {
   Bucket.findOneAndUpdate(
-    { "addedTask._id": request.params._id },
+    { bTitle: request.params.bTitle },
     { $pull: { addedTask: { _id: request.params._id } } },
     { new: true }
   )
     .then(bucket => {
-      response.redirect(`/bucket/${bucket.bTitle}`);
+      response.status(200).json(Bucket);
+      return;
     })
     .catch(err => {
       console.log(err);
@@ -71,57 +99,6 @@ function taskMove(request, response) {
         console.log(err);
       });
   });
-}
-
-// function taskOnePut(request, response) {
-//   let tId = request.params._id;
-//   console.log("TID: " + tId);
-//   let bucketTitle = request.params.bTitle;
-//   console.log("BTITLE: " + bucketTitle);
-//   Bucket.findOneAndUpdate(
-//     { "addedTask._id": request.params._id },
-//     { $push: { addedTask: request.body.bucket.addedTask } },
-//     { new: true }
-//   ).then(removeTask => {
-//     Bucket.findOneAndUpdate(
-//       { "addedTask._id": tId },
-//       { $pull: { addedTask: { _id: tId } } },
-//       { new: true }
-//     )
-//       .then(bucket => {
-//         response.redirect(`/bucket/${bucketTitle}`);
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   });
-// }
-
-function taskOnePut(request, response) {
-  bucketTitle = request.params.bTitle;
-  // console.log("BTITLE: " + bucketTitle);
-  tId = request.params._id;
-  // console.log("TID: " + tId);
-  Bucket.findOne(
-    {
-      bTitle: bucketTitle
-    },
-    function(err, doc) {
-      var subDoc = doc.addedTask.id(request.params._id);
-      subDoc.set(request.body);
-      // console.log("DOC: " + doc);
-      // console.log("SUBDOC: " + subDoc);
-      doc
-        .save()
-        .then(doc => {
-          response.status(200);
-          // response.redirect(`/bucket/${bucketTitle}`);
-        })
-        .catch(function(err) {
-          response.status(500).send(err);
-        });
-    }
-  );
 }
 
 module.exports = {
