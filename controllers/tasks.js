@@ -18,7 +18,7 @@ function taskGetOne(request, response) {
           taskData = bucketData.addedTask.find(
             task => task._id.toString() == tId
           );
-          response.status(200).json(taskData);
+          response.status(200).json({ taskData, bucketData, bucketList });
         })
         .catch(err => {
           console.log("BUCKETDATAERR: " + err);
