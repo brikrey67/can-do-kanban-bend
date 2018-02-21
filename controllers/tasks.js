@@ -64,7 +64,6 @@ function taskDelete(request, response) {
   )
     .then(bucket => {
       response.status(200).json(Bucket);
-      return;
     })
     .catch(err => {
       console.log(err);
@@ -72,28 +71,27 @@ function taskDelete(request, response) {
 }
 
 function taskMove(request, response) {
-  let bId = request.body.bucketList._id;
+  let bId = request.body.moveToBucketId;
   let tId = request.params._id;
-  let oldBucketTitle = request.params.bTitle;
-  // console.log("TID: " + tId);
-  // console.log("NEWBID: " + bId);
-  // console.log("OLDBID: " + request.body.bucket._id);
-  // console.log("OLD_BUCKETTITLE " + oldBucketTitle);
-  // if (bId === request.body.bucket._id) {
-  //   return;
-  // }
+  let oBTitle = request.params.bTitle;
+  console.log("REQ_BODY: " + request.body);
+  console.log("TID: " + tId);
+  console.log("MOVETO: " + bId);
+  console.log("OBTITLE" + oBTitle);
+  console.log("TASKDATA: " + request.body.taskData);
+
   Bucket.findOneAndUpdate(
     { _id: bId },
-    { $push: { addedTask: request.body.bucket.addedTask } },
+    { $push: { addedTask: request.body.taskData } },
     { new: true }
   ).then(removeTask => {
     Bucket.findOneAndUpdate(
-      { "addedTask._id": tId },
+      { bTitle: oBTitle },
       { $pull: { addedTask: { _id: tId } } },
       { new: true }
     )
       .then(bucket => {
-        response.redirect(`/bucket/${oldBucketTitle}`);
+        response.status(200).json(Bucket);
       })
       .catch(err => {
         console.log(err);
