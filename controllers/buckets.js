@@ -29,7 +29,7 @@ function bucketPost(request, response) {
   // let bTitle = request.params.bTitle;
   Bucket.create(request.body)
     .then(bucket => {
-      console.log(bucket, request.body);
+      // console.log(bucket, request.body);
       response.status(200).json(bucket);
     })
     .catch(err => {
